@@ -26,14 +26,6 @@ client.connect(err => {
         // console.log('from database', items)
       })
   })
-  // app.get('/events', (req, res) => {
-  //   eventCollection.find({})
-  //     .toArray((err, items) => {
-  //       res.send(items)
-  //       // console.log('from database', items)
-  //     })
-  // })
-
 
   app.get('/product/:bookType', (req, res) => {
     console.log(req.params.bookType);
