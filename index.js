@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectId;
+const ObjectID = require('mongodb').ObjectID;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config()
@@ -26,6 +26,15 @@ client.connect(err => {
         // console.log('from database', items)
       })
   })
+  // app.get('/events', (req, res) => {
+  //   eventCollection.find({})
+  //     .toArray((err, items) => {
+  //       res.send(items)
+  //       // console.log('from database', items)
+  //     })
+  // })
+
+
   app.get('/product/:bookType', (req, res) => {
     console.log(req.params.bookType);
     eventCollection.find({ _id: ObjectID(req.params.bookType) })
@@ -45,19 +54,15 @@ client.connect(err => {
       })
   })
 
-  // app.delete('delete/:id', (req, res) => {
-  //   // const id = ObjectID(req.params.id);
-  //   // console.log('delete this', id);
-  //   productCollection.deleteOne({ _id: ObjectID(req.params.id)})
-  //     .then( ( result) => {
-  //       console.log(result);
-  // //     })
-  // })
-
+  app.delete('/deleteProduct/:id',(req,res) => {
+    const id = ObjectID(req.params.id);
+    eventCollection.findOneAndDelete({_id:id})
+    .then(result => {
+      res.send(result.value)
+      
+    })
+  })
 });
 
 
 app.listen(process.env.PORT || port)
-  // , () => {
-//   console.log(`Example app listening at http://localhost:${port}`)
-// })
